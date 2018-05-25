@@ -16,8 +16,8 @@ const user = {
   },
 
   mutations: {
-    SET_TOKEN: (state, token) => {
-      state.access_token = token
+    SET_TOKEN: (state, access_token) => {
+      state.access_token = access_token
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -33,13 +33,13 @@ const user = {
   actions: {
     // 登录
     Login({commit}, userInfo) {
-      const username = userInfo.username.trim()
+      let username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const result = response.result
-          setToken(result.access_token)
-          commit('SET_TOKEN', result.access_token)
-          resolve()
+          let date = response.data
+            setToken(date.access_token)
+            commit('SET_TOKEN', date.access_token)
+            resolve()
         }).catch(error => {
           reject(error)
         })
@@ -51,7 +51,7 @@ const user = {
     GetInfo({commit, state}) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
+          let data = response.data
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
           } else {

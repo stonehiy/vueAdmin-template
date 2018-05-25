@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(username, password) {
   return request({
-    url: '/uaa/sysLogin',
+    url: '/auth/sysLogin',
     method: 'post',
     data: {
       username,
@@ -13,14 +13,14 @@ export function login(username, password) {
 
 export function getInfo(token) {
   return request({
-    url: '/uaa/current',
+    url: '/auth/current',
     method: 'get',
   })
 }
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/auth/sysLogout',
     method: 'post'
   })
 }
