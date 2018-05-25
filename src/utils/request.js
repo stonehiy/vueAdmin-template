@@ -18,7 +18,7 @@ service.interceptors.request.use(config => {
     config.data = qs.stringify(config.data);
   }
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
   return config
 }, error => {

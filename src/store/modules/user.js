@@ -1,14 +1,15 @@
-import {token, login, logout, getInfo} from '@/api/login'
+import {login, logout, getInfo} from '@/api/login'
 import {getToken, setToken, removeToken} from '@/utils/auth'
 
 const user = {
   state: {
     access_token: getToken(),
-    token_type: 'bearer',
+    token_type: 'Bearer',
     refresh_token: '',
     expires_in: 0,
     scope: 'ui',
-    token: getToken(),
+
+    /*******原来的字段********/
     name: '',
     avatar: '',
     roles: []
@@ -16,7 +17,7 @@ const user = {
 
   mutations: {
     SET_TOKEN: (state, token) => {
-      state.token = token
+      state.access_token = token
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -31,33 +32,20 @@ const user = {
 
   actions: {
     // 登录
-    Token({commit}, userInfo) {
-      const username = userInfo.username.trim()
-      return new Promise((resolve, reject) => {
-        token(username, userInfo.password).then(response => {
-          // const data = response.data
-          setToken(response.access_token)
-          commit('SET_TOKEN', response.access_token)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    // 登录
     Login({commit}, userInfo) {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
+          const result = response.result
+          setToken(result.access_token)
+          commit('SET_TOKEN', result.access_token)
           resolve()
         }).catch(error => {
           reject(error)
         })
       })
     },
+
 
     // 获取用户信息
     GetInfo({commit, state}) {

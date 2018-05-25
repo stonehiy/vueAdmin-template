@@ -1,29 +1,8 @@
 import request from '@/utils/request'
 
-
-
-/**
- * uaa/oauth/token
- */
-export function token(username, password) {
-  return request({
-    url: '/uaa/oauth/token',
-    method: 'post',
-    headers: {
-      'Authorization': 'Basic YnJvd3Nlcjo=',
-    },
-    responseType: 'json',
-    data: {
-      username,
-      password,
-      scope: 'ui',
-      grant_type: 'password'
-    }
-  })
-}
 export function login(username, password) {
   return request({
-    url: '/user/login',
+    url: '/uaa/sysLogin',
     method: 'post',
     data: {
       username,
@@ -34,9 +13,8 @@ export function login(username, password) {
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/uaa/current',
     method: 'get',
-    params: {token}
   })
 }
 
