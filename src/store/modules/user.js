@@ -3,16 +3,25 @@ import {getToken, setToken, removeToken} from '@/utils/auth'
 
 const user = {
   state: {
+    /****token****/
     access_token: getToken(),
     token_type: 'Bearer',
     refresh_token: '',
     expires_in: 0,
     scope: 'ui',
 
-    /*******原来的字段********/
-    name: '',
-    avatar: '',
-    roles: []
+    /*******user********/
+    username: '',//登录名
+    status: 1,//状态: 1-可用，0-禁用，-1-锁定
+    phoneNumber:'',//手机号
+    email:'',//邮箱
+    name:'',//用户名
+    resources:[],//资源
+    roles: [],//角色
+    enabled: true,//是否可用
+    authorities:[],//{"authority": "admin"}
+    avatar: '',//头像
+    type:'',
   },
 
   mutations: {
@@ -52,6 +61,7 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           let data = response.data
+        let userAuthentication = data.roles
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
           } else {
@@ -69,7 +79,7 @@ const user = {
     // 登出
     LogOut({commit, state}) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        logout(state.access_token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()

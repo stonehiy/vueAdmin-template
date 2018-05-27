@@ -11,17 +11,20 @@ export function login(username, password) {
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
     url: '/auth/current',
     method: 'get',
   })
 }
 
-export function logout() {
+export function logout(accessToken) {
   return request({
     url: '/auth/sysLogout',
-    method: 'post'
+    method: 'get',
+    params: {
+      'accessToken': accessToken,
+    },
   })
 }
 
