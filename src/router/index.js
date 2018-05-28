@@ -33,7 +33,7 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
+    name: '首页',
     hidden: true,
     children: [{
       path: 'dashboard',
@@ -59,33 +59,86 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: {title: 'Example', icon: 'example'},
+    meta: {title: '认证中心', icon: 'example'},
     children: [
       {
         path: 'table',
         name: 'Table',
         component: TableView,
-        meta: {title: 'Table', icon: 'table'}
+        meta: {title: '客户端', icon: 'table'}
       },
       {
         path: 'tree',
         name: 'Tree',
         component: TreeView,
-        meta: {title: 'Tree', icon: 'tree', roles: ['admin']}
+        meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}
       }
+    ]
+  },
+  {
+    path: '/form',
+    component: Layout,
+    name: 'Example2',
+    meta: {title: '用户中心', icon: 'example'},
+    children: [
+      // {
+      //   path: 'index',
+      //   name: 'Form',
+      //   component: FormView,
+      //   meta: {title: 'Form', icon: 'form'}
+      // }
+      {
+        path: 'table',
+        name: 'Table',
+        component: TableView,
+        meta: {title: '社会化接入', icon: 'table'}
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: TreeView,
+        meta: {title: '用户管理', icon: 'tree', roles: ['admin']}
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: TreeView,
+        meta: {title: '注册信息表', icon: 'tree', roles: ['admin']}
+      },
     ]
   },
 
   {
-    path: '/form',
+    path: '/example',
     component: Layout,
+    redirect: '/example/table',
+    name: 'Example3',
+    meta: {title: '权限中心', icon: 'example'},
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: FormView,
-        meta: {title: 'Form', icon: 'form'}
-      }
+        path: 'table',
+        name: 'Table',
+        component: TableView,
+        meta: {title: '角色管理', icon: 'table'}
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: TreeView,
+        meta: {title: '权限管理', icon: 'tree', roles: ['admin']}
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: TreeView,
+        meta: {title: '授权管理', icon: 'tree', roles: ['admin']}
+      },
+      {
+        path: 'tree',
+        name: 'Tree',
+        component: TreeView,
+        meta: {title: '资源管理', icon: 'tree', roles: ['admin']}
+      },
     ]
   },
 
