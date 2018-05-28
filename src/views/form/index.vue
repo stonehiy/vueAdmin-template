@@ -49,6 +49,7 @@
 
 <script>
 export default {
+  name:'FormView',
   data() {
     return {
       form: {

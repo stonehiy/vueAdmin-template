@@ -40,6 +40,7 @@
 import { getList } from '@/api/table'
 
 export default {
+  name:'TableView',
   data() {
     return {
       list: null,
