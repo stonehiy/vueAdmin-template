@@ -2,11 +2,11 @@ import request from '@/utils/request'
 
 
 //获取OAuth2客户端列表
-export function getAuthClientList(params) {
+export function getAuthClientList(/*params*/) {
   return request({
     url: '/auth/client/client/list',
     method: 'get',
-    params
+    // params
   })
 }
 
@@ -22,7 +22,7 @@ export function getAuthClientById(id) {
 //新增OAuth2客户端
 export function addAuthClient(client) {
   return request({
-    url: '/client/client/add',
+    url: '/auth/client/client/add',
     method: 'post',
     date: client,
   })
@@ -30,7 +30,7 @@ export function addAuthClient(client) {
 //修改OAuth2客户端
 export function updateAuthClient(client) {
   return request({
-    url: '/client/client/update',
+    url: '/auth/client/client/update',
     method: 'post',
     date: client,
   })
@@ -39,7 +39,7 @@ export function updateAuthClient(client) {
 //删除OAuth2客户端
 export function deleteAuthClient(id) {
   return request({
-    url: '/client/client/delete/'+id,
+    url: '/client/client/delete/' + id,
     method: 'post',
   })
 }
