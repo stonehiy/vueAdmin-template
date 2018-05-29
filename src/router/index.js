@@ -38,7 +38,7 @@ export const constantRouterMap = [
       path: 'dashboard',
       component: Dashboard,
       name: 'dashboard',
-      meta: { title: '首页', icon: 'dashboard', noCache: true }
+      meta: {title: '首页', icon: 'example', noCache: true}
     }]
   }
 ]
@@ -52,19 +52,20 @@ export default new Router({
 
 import TableView from '@/views/table/index'
 import TreeView from '@/views/tree/index'
-import FormView from '@/views/form/index'
 
-import AuthClient from '@/views/sys/auth/client'
+//import AuthClient from '@/views/sys/auth/client'
+//使用了 vue-routerd 的[Lazy Loading Routes
+//vue官网写法：{ path: '/', component: () => import('./components/Home.vue') },
+//commonJS写法：  { path: '/item/:id', component: resolve => require(['./components/Item.vue'],resolve) }
 export const asyncRouterMap = [
   {
-    path: '/sys/auth',
-    component: AuthClient,
-    redirect: '/sys/auth',
-    name: 'Example',
+    path: '/auth',
+    name: 'auth',
+    component: Layout,
     meta: {title: '认证中心', icon: 'example'},
     children: [
-      {path: 'auth', name: 'client', component: AuthClient, meta: {title: '客户端', icon: 'table'}},
-      {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
+      {path: 'client', name: 'client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端', icon: 'table', roles: ['admin']}},
+      {path: 'client', name: 'client', component: AuthClient, meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
     ]
   },
   {
@@ -79,7 +80,7 @@ export const asyncRouterMap = [
       //   component: FormView,
       //   meta: {title: 'Form', icon: 'form'}
       // }
-      {path: 'table', name: 'Table', component: TableView, meta: {title: '社会化接入', icon: 'table'}},
+      {path: 'table', name: 'Table', component: AuthClient, meta: {title: '社会化接入', icon: 'table'}},
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '用户管理', icon: 'tree', roles: ['admin']}},
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '注册信息表', icon: 'tree', roles: ['admin']}},
     ]
