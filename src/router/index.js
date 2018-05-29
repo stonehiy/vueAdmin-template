@@ -65,7 +65,7 @@ export const asyncRouterMap = [
     meta: {title: '认证中心', icon: 'example'},
     children: [
       {path: 'client', name: 'client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端', icon: 'table', roles: ['admin']}},
-      {path: 'client', name: 'client', component: AuthClient, meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
+      {path: 'client', name: 'client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
     ]
   },
   {
@@ -80,7 +80,7 @@ export const asyncRouterMap = [
       //   component: FormView,
       //   meta: {title: 'Form', icon: 'form'}
       // }
-      {path: 'table', name: 'Table', component: AuthClient, meta: {title: '社会化接入', icon: 'table'}},
+      {path: 'table', name: 'Table', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '社会化接入', icon: 'table'}},
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '用户管理', icon: 'tree', roles: ['admin']}},
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '注册信息表', icon: 'tree', roles: ['admin']}},
     ]
