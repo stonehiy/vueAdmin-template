@@ -242,8 +242,8 @@
       getList() {
         this.listLoading = true
         getAuthClientList(/*this.listQuery8*/'').then(response => {
-          this.list = response.data.data
-          this.total = response.data.data.total
+          this.list = response.data
+//          this.total = response.data.data.total
           this.listLoading = false
         }).catch(() => {
           this.list = []
@@ -344,13 +344,14 @@
       handleDownload() {
         this.downloadLoading = true
 //        resolve => require(['@/vendor/Export2Excel'],resolve)
-        import('@/vendor/Export2Excel')
+        import
+        ('@/vendor/Export2Excel')
           .then(excel => {
-          const tHeader = ['用户名', '手机号码', '性别', '生日', '状态']
-          const filterVal = ['username', 'mobile', 'gender', 'birthday', 'status']
-          excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
-          this.downloadLoading = false
-        })
+            const tHeader = ['用户名', '手机号码', '性别', '生日', '状态']
+            const filterVal = ['username', 'mobile', 'gender', 'birthday', 'status']
+            excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
+            this.downloadLoading = false
+          })
       }
     }
   }
