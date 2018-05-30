@@ -46,6 +46,14 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false,
+
+    use: [{
+      loader: 'babel-loader',
+      options: {
+        presets: [['es2015', {modules: false}]],
+        plugins: ['syntax-dynamic-import']
+      }
+    }]
   },
 
   build: {

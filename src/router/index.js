@@ -59,13 +59,13 @@ import TreeView from '@/views/tree/index'
 //commonJS写法：  { path: '/item/:id', component: resolve => require(['./components/Item.vue'],resolve) }
 export const asyncRouterMap = [
   {
-    path: '/auth',
-    name: 'auth',
+    path: '/sys/auth',
     component: Layout,
+    name: 'auth',
     meta: {title: '认证中心', icon: 'example'},
     children: [
-      {path: 'client', name: 'client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端', icon: 'table', roles: ['admin']}},
-      {path: 'client', name: 'client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
+      {path: 'client', name: 'Client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端', icon: 'table', roles: ['admin']}},
+      {path: 'client', name: 'Client1', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
     ]
   },
   {

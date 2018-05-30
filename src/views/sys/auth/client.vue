@@ -16,27 +16,55 @@
     </div>
 
     <!-- 查询结果 -->
+    <!--   id: undefined,
+       accessTokenValiditySeconds: '',
+       clientId: '',
+       createdBy: undefined,
+       createdDate: undefined,
+       enable: '',
+       grantType: '',
+       lastModifiedBy: '',
+       lastModifiedDate: '',
+       redirectUri: '',
+       refreshTokenValiditySeconds: '',
+       resourceIds: '',-->
     <el-table size="small" :data="list" v-loading="listLoading" element-loading-text="正在查询中。。。" border fit
               highlight-current-row>
-      <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable>
+      <el-table-column align="center" width="100px" label="客户端ID" prop="id" sortable>
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="用户名" prop="username">
+      <el-table-column align="center" min-width="100px" label="accessTokenValiditySeconds"
+                       prop="accessTokenValiditySeconds">
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="手机号码" prop="mobile">
+      <el-table-column align="center" min-width="100px" label="clientId" prop="clientId">
       </el-table-column>
 
-      <el-table-column align="center" min-width="50px" label="性别" prop="gender">
+      <el-table-column align="center" min-width="50px" label="创建者" prop="createdBy">
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="生日" prop="birthday">
+      <el-table-column align="center" min-width="100px" label="创建时间" prop="createdDate">
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="用户等级" prop="userLevel">
+      <el-table-column align="center" min-width="100px" label="授权类型" prop="grantType">
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="状态" prop="status"
+      <el-table-column align="center" min-width="100px" label="修改者" prop="lastModifiedBy">
+      </el-table-column>
+
+      <el-table-column align="center" min-width="100px" label="修改时间" prop="lastModifiedDate">
+      </el-table-column>
+
+      <el-table-column align="center" min-width="100px" label="资源ID" prop="resourceIds">
+      </el-table-column>
+
+      <el-table-column align="center" min-width="100px" label="跳转ID" prop="redirectUri">
+      </el-table-column>
+      <el-table-column align="center" min-width="100px" label="refreshTokenValiditySeconds"
+                       prop="refreshTokenValiditySeconds">
+      </el-table-column>
+
+      <el-table-column align="center" min-width="100px" label="状态" prop="enable"
                        :filters="[{ text: '可用', value: '可用' }, { text: '禁用', value: '禁用' }, { text: '删除', value: '删除' }]"
                        :filter-method="filterStatus">
         <template slot-scope="scope">
@@ -208,12 +236,12 @@
       }
     },
     created() {
-      this.getAuthClientList()
+      this.getList()
     },
     methods: {
-      getAuthClientList() {
+      getList() {
         this.listLoading = true
-        fetchList(/*this.listQuery8*/'').then(response => {
+        getAuthClientList(/*this.listQuery8*/'').then(response => {
           this.list = response.data.data
           this.total = response.data.data.total
           this.listLoading = false
@@ -225,15 +253,15 @@
       },
       handleFilter() {
         this.listQuery.page = 1
-        this.getAuthClientList()
+        this.getList()
       },
       handleSizeChange(val) {
         this.listQuery.limit = val
-        this.getAuthClientList()
+        this.getList()
       },
       handleCurrentChange(val) {
         this.listQuery.page = val
-        this.getAuthClientList()
+        this.getList()
       },
       resetForm() {
         this.dataForm = {
@@ -315,8 +343,9 @@
       },
       handleDownload() {
         this.downloadLoading = true
-        import
-        ('@/vendor/Export2Excel').then(excel => {
+//        resolve => require(['@/vendor/Export2Excel'],resolve)
+        import('@/vendor/Export2Excel')
+          .then(excel => {
           const tHeader = ['用户名', '手机号码', '性别', '生日', '状态']
           const filterVal = ['username', 'mobile', 'gender', 'birthday', 'status']
           excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
