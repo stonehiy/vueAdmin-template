@@ -2,11 +2,11 @@ import request from '@/utils/request'
 
 
 //获取OAuth2客户端列表
-export function getAuthClientList(/*params*/) {
+export function getAuthClientList(params) {
   return request({
     url: '/auth/client/client/list',
     method: 'get',
-    // params
+    params
   })
 }
 

@@ -4,9 +4,9 @@
     <!-- 查询和其他操作 -->
 
     <div class="filter-container">
-      <el-input clearable class="filter-item" style="width: 200px;" placeholder="请输入用户名" v-model="listQuery.username">
+      <el-input clearable class="filter-item" style="width: 200px;" placeholder="请输入客户端" v-model="listQuery.clientId">
       </el-input>
-      <el-input clearable class="filter-item" style="width: 200px;" placeholder="请输入手机号" v-model="listQuery.mobile">
+      <el-input clearable class="filter-item" style="width: 200px;" placeholder="请输入授权类型" v-model="listQuery.grantType">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" @click="handleCreate" icon="el-icon-edit">添加</el-button>
@@ -16,18 +16,7 @@
     </div>
 
     <!-- 查询结果 -->
-    <!--   id: undefined,
-       accessTokenValiditySeconds: '',
-       clientId: '',
-       createdBy: undefined,
-       createdDate: undefined,
-       enable: '',
-       grantType: '',
-       lastModifiedBy: '',
-       lastModifiedDate: '',
-       redirectUri: '',
-       refreshTokenValiditySeconds: '',
-       resourceIds: '',-->
+
     <el-table size="small" :data="list" v-loading="listLoading" element-loading-text="正在查询中。。。" border fit
               highlight-current-row>
       <el-table-column align="center" width="100px" label="客户端ID" prop="id" sortable>
@@ -37,7 +26,7 @@
                        prop="accessTokenValiditySeconds">
       </el-table-column>
 
-      <el-table-column align="center" min-width="100px" label="clientId" prop="clientId">
+      <el-table-column align="center" min-width="100px" label="客户端" prop="clientId">
       </el-table-column>
 
       <el-table-column align="center" min-width="50px" label="创建者" prop="createdBy">
@@ -83,8 +72,8 @@
     <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                     :current-page="listQuery.page"
-                     :page-sizes="[10,20,30,50]" :page-size="listQuery.limit"
+                     :current-page="listQuery.pageNumber"
+                     :page-sizes="[10,20,30,50]" :page-size="listQuery.pageSize"
                      layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -184,10 +173,10 @@
         total: null,
         listLoading: true,
         listQuery: {
-          page: 1,
-          limit: 20,
-          username: undefined,
-          mobile: undefined,
+          pageNumber: 1,
+          pageSize: 20,
+          grantType: '',
+          clientId: '',
           sort: '+id'
         },
         dataForm: {
@@ -241,9 +230,9 @@
     methods: {
       getList() {
         this.listLoading = true
-        getAuthClientList(/*this.listQuery8*/'').then(response => {
-          this.list = response.data
-//          this.total = response.data.data.total
+        getAuthClientList(this.listQuery).then(response => {
+          this.list = response.data.records
+          this.total = response.data.total
           this.listLoading = false
         }).catch(() => {
           this.list = []
@@ -252,15 +241,15 @@
         })
       },
       handleFilter() {
-        this.listQuery.page = 1
+        this.listQuery.pageNumber = 1
         this.getList()
       },
       handleSizeChange(val) {
-        this.listQuery.limit = val
+        this.listQuery.pageSize = val
         this.getList()
       },
       handleCurrentChange(val) {
-        this.listQuery.page = val
+        this.listQuery.pageNumber = val
         this.getList()
       },
       resetForm() {
