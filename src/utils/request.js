@@ -16,10 +16,10 @@ const Bearer = 'Bearer '
 // request拦截器
 service.interceptors.request.use(config => {
   if (config.method === 'post' || config.method === 'delete') {
-    console.log("config.data = " +config.data.values)
+    console.log("config.data = " + config.data)
     config.data = qs.stringify(config.data);
-    console.log("config.method = " +config.method)
-    console.log("config.data = " +config.data.values)
+    console.log("config.method = " + config.method)
+    console.log("config.data = " + config.data.values)
   }
   if (store.getters.token) {
     config.headers['Authorization'] = Bearer + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改

@@ -54,7 +54,7 @@
       </el-table-column>
 
       <el-table-column align="center" min-width="100px" label="状态" prop="enable"
-                       :filters="[{ text: '可用', value: '可用' }, { text: '禁用', value: '禁用' }, { text: '删除', value: '删除' }]"
+                       :filters="[{ text: '可用', value: 'true' }, { text: '禁用', value: 'false' }]"
                        :filter-method="filterStatus">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
@@ -82,49 +82,18 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="dataForm" status-icon label-position="left" label-width="100px"
                style='width: 400px; margin-left:50px;'>
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="dataForm.username"></el-input>
+        <el-form-item label="客户端" prop="clientId">
+          <el-input v-model="dataForm.clientId"></el-input>
         </el-form-item>
-        <el-form-item label="手机号码" prop="mobile">
-          <el-input v-model="dataForm.mobile"></el-input>
+        <el-form-item label="授权类型" prop="grantType">
+          <el-input v-model="dataForm.grantType"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="dataForm.password" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkPassword">
-          <el-input type="password" v-model="dataForm.checkPassword" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="性别" prop="gender">
-          <el-select v-model="dataForm.gender" placeholder="请选择">
-            <el-option label="未知" value="未知">
+
+        <el-form-item label="状态" prop="enable">
+          <el-select v-model="dataForm.enable" placeholder="请选择">
+            <el-option label="可用" value="true">
             </el-option>
-            <el-option label="男" value="男">
-            </el-option>
-            <el-option label="女" value="女">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="生日" prop="birthday">
-          <el-date-picker v-model="dataForm.birthday" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="用户等级" prop="userLevel">
-          <el-select v-model="dataForm.userLevel" placeholder="请选择">
-            <el-option label="普通用户" value="普通用户">
-            </el-option>
-            <el-option label="VIP用户" value="VIP用户">
-            </el-option>
-            <el-option label="高级VIP用户" value="高级VIP用户">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-select v-model="dataForm.status" placeholder="请选择">
-            <el-option label="可用" value="可用">
-            </el-option>
-            <el-option label="禁用" value="禁用">
-            </el-option>
-            <el-option label="删除" value="删除">
+            <el-option label="禁用" value="false">
             </el-option>
           </el-select>
         </el-form-item>
@@ -185,7 +154,7 @@
           clientId: '',
           createdBy: undefined,
           createdDate: undefined,
-          enable: '',
+          enable: 0,
           grantType: '',
           lastModifiedBy: '',
           lastModifiedDate: '',
@@ -200,16 +169,8 @@
           create: '创建'
         },
         rules: {
-          username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
-          mobile: [{required: true, message: '手机号码不能为空', trigger: 'blur'}],
-          password: [
-            {required: true, message: '密码不能为空', trigger: 'blur'},
-            {validator: validatePass, trigger: 'blur'}
-          ],
-          checkPassword: [
-            {required: true, message: '密码不能为空', trigger: 'blur'},
-            {validator: validatePass2, trigger: 'blur'}
-          ]
+          grantType: [{required: true, message: '授权类型不能为空', trigger: 'blur'}],
+          clientId: [{required: true, message: '客户端不能为空', trigger: 'blur'}],
         },
         downloadLoading: false
       }
@@ -255,14 +216,17 @@
       resetForm() {
         this.dataForm = {
           id: undefined,
-          username: '',
-          mobile: '',
-          pass: undefined,
-          checkPass: undefined,
-          gender: '男',
-          userLevel: '普通用户',
-          birthday: undefined,
-          status: '可用'
+          accessTokenValiditySeconds: '',
+          clientId: '',
+          createdBy: undefined,
+          createdDate: undefined,
+          enable: '',
+          grantType: '',
+          lastModifiedBy: '',
+          lastModifiedDate: '',
+          redirectUri: '',
+          refreshTokenValiditySeconds: '',
+          resourceIds: '',
         }
       },
       filterStatus(value, row) {
@@ -279,8 +243,8 @@
       createData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            createUser(this.dataForm).then(response => {
-              this.list.unshift(response.data.data)
+            addAuthClient(this.dataForm).then(response => {
+              this.list.unshift(response.data)
               this.dialogFormVisible = false
               this.$notify({
                 title: '成功',
@@ -303,7 +267,7 @@
       updateData() {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
-            updateUser(this.dataForm).then(() => {
+            updateAuthClient(this.dataForm).then(() => {
               for (const v of this.list) {
                 if (v.id === this.dataForm.id) {
                   const index = this.list.indexOf(v)
@@ -323,12 +287,17 @@
         })
       },
       handleDelete(row) {
-        this.$notify({
-          title: '警告',
-          message: '用户删除操作不支持！',
-          type: 'warning',
-          duration: 3000
+        deleteAuthClient(row.id).then(() => {
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          const index = this.list.indexOf(row)
+          this.list.splice(index, 1)
         })
+
       },
       handleDownload() {
         this.downloadLoading = true
