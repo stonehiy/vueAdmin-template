@@ -305,12 +305,24 @@
         import
         ('@/vendor/Export2Excel')
           .then(excel => {
-            const tHeader = ['用户名', '手机号码', '性别', '生日', '状态']
-            const filterVal = ['username', 'mobile', 'gender', 'birthday', 'status']
-            excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
+            const tHeader = ['id', 'accessTokenValiditySeconds', 'clientId', 'createdBy', 'createdDate', 'enable', 'grantType', 'lastModifiedBy', 'lastModifiedDate', 'redirectUri', 'refreshTokenValiditySeconds', 'resourceIds']
+            const filterVal = ['id', 'accessTokenValiditySeconds', 'clientId', 'createdBy', 'createdDate', 'enable', 'grantType', 'lastModifiedBy', 'lastModifiedDate', 'redirectUri', 'refreshTokenValiditySeconds', 'resourceIds']
+            excel.export_json_to_excel2(tHeader, this.list, filterVal, '客户端信息')
             this.downloadLoading = false
           })
       }
     }
   }
 </script>
+id: undefined,
+accessTokenValiditySeconds: '',
+clientId: '',
+createdBy: undefined,
+createdDate: undefined,
+enable: 0,
+grantType: '',
+lastModifiedBy: '',
+lastModifiedDate: '',
+redirectUri: '',
+refreshTokenValiditySeconds: '',
+resourceIds: '',
