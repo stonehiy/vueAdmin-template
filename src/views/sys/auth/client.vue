@@ -314,15 +314,4 @@
     }
   }
 </script>
-id: undefined,
-accessTokenValiditySeconds: '',
-clientId: '',
-createdBy: undefined,
-createdDate: undefined,
-enable: 0,
-grantType: '',
-lastModifiedBy: '',
-lastModifiedDate: '',
-redirectUri: '',
-refreshTokenValiditySeconds: '',
-resourceIds: '',
+
