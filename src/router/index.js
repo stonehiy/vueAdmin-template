@@ -30,9 +30,9 @@ export const constantRouterMap = [
   {path: '/404', component: Page404, hidden: true},
 
   {
-    path: '/',
+    path: '',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: 'dashboard',
     hidden: false,
     children: [{
       path: 'dashboard',
@@ -64,8 +64,18 @@ export const asyncRouterMap = [
     name: 'auth',
     meta: {title: '认证中心', icon: 'example'},
     children: [
-      {path: 'client', name: 'Client', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端', icon: 'table', roles: ['admin']}},
-      {path: 'client', name: 'Client1', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}}
+      {
+        path: 'client',
+        name: 'Client',
+        component: resolve => require(['@/views/sys/auth/client'], resolve),
+        meta: {title: '客户端', icon: 'table', roles: ['admin']}
+      },
+      {
+        path: 'client',
+        name: 'Client1',
+        component: resolve => require(['@/views/sys/auth/client'], resolve),
+        meta: {title: '客户端授权', icon: 'tree', roles: ['admin']}
+      }
     ]
   },
   {
@@ -80,7 +90,12 @@ export const asyncRouterMap = [
       //   component: FormView,
       //   meta: {title: 'Form', icon: 'form'}
       // }
-      {path: 'table', name: 'Table', component: resolve => require(['@/views/sys/auth/client'],resolve), meta: {title: '社会化接入', icon: 'table'}},
+      {
+        path: 'table',
+        name: 'Table',
+        component: resolve => require(['@/views/sys/auth/client'], resolve),
+        meta: {title: '社会化接入', icon: 'table'}
+      },
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '用户管理', icon: 'tree', roles: ['admin']}},
       {path: 'tree', name: 'Tree', component: TreeView, meta: {title: '注册信息表', icon: 'tree', roles: ['admin']}},
     ]
